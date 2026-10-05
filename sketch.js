@@ -9,7 +9,8 @@ let ticks = 0;
 
 let spawn_radius = 0;
 let NUM_SPAWNED = 10;
-let SPAWN_ORE_COST = 5;
+const CONFIG = Object.freeze({ SPAWN_ORE_COST: 5, SPEED_COST: 15 });
+const SPAWN_ORE_COST = CONFIG.SPAWN_ORE_COST;
 
 let map_info = {
   zoomLevel: 1,
@@ -55,21 +56,7 @@ function setup() {
       return "spawn " + NUM_SPAWNED + " ore\n(" + SPAWN_ORE_COST + " iron)";
     },
     onClick: () => {
-      const iron_holders = find_all_with(
-        [CT.HoldsOre, CT.IsTarget],
-        (entity) => {
-          return entity.HoldsOre.type == OreType.Iron;
-        }
-      );
-      let i = SPAWN_ORE_COST;
-      for (let iron_holder of iron_holders) {
-        i = i - iron_holder.HoldsOre.amount;
-        iron_holder.HoldsOre.amount = 0;
-        if (i <= 0) {
-          iron_holder.HoldsOre.amount += -i;
-          break;
-        }
-      }
+      if (!spend_ore(OreType.Iron, CONFIG.SPAWN_ORE_COST)) return;
       spawn_N_ore();
     },
     onHoverStart: (_entity) => {},
@@ -78,21 +65,22 @@ function setup() {
       return amount_in_storage(OreType.Iron) >= SPAWN_ORE_COST;
     },
   });
-  make_button({
+  make_dynamic_button({
     x: width - BUTTON_WIDTH - BUTTON_PADDING,
     y: BUTTON_HEIGHT + BUTTON_PADDING + BUTTON_PADDING,
     w: BUTTON_WIDTH,
     h: BUTTON_HEIGHT,
-    label: "speed up ship\n(15 iron)",
+    label: () => "speed up ship\n(" + CONFIG.SPEED_COST + " iron)",
     onClick: () => {
       if (SPEED > 3.9) return;
+      if (!spend_ore(OreType.Iron, CONFIG.SPEED_COST)) return;
       SPEED += 0.1;
       console.log("new speed is ", SPEED);
     },
     onHoverStart: (_entity) => {},
     onHoverEnd: (_entity) => {},
     validationFunction: () => {
-      return amount_in_storage(OreType.Iron) >= 15;
+      return amount_in_storage(OreType.Iron) >= CONFIG.SPEED_COST;
     },
   });
 

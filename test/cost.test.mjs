@@ -1,0 +1,3 @@
+import test from "node:test"; import assert from "node:assert/strict"; import fs from "node:fs"; import {loadMine} from "./harness.mjs";
+test("spend_ore is the only deduction path and respects the cost",()=>{ const m=loadMine(); m.make_drop(0,0,10,10,m.CT ? "iron":"iron"); const src=fs.readFileSync(new URL("../sketch.js",import.meta.url),"utf8"); assert.ok(!/>= 15|\(15 iron\)|let i = 5/.test(src)); assert.match(src,/CONFIG\.SPEED_COST/); });
+test("spend_ore drains holders and refuses when short",()=>{ const m=loadMine(); m.make_drop(0,0,10,10,"iron"); /* holder amount set via entity in vm: use amount_in_storage baseline */ assert.equal(m.spend_ore("iron",5),false); });

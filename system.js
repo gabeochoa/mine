@@ -236,3 +236,16 @@ function render_labels() {
 }
 
 // end renderer system
+
+// Single spender for every priced button: label, validator and deduction
+// must all read the same CONFIG cost or they drift (8c1e2df).
+function spend_ore(ore_type, cost) {
+  if (amount_in_storage(ore_type) < cost) return false;
+  let remaining = cost;
+  for (const holder of find_all_with([CT.HoldsOre, CT.IsTarget], (e) => e.HoldsOre.type == ore_type)) {
+    const taken = Math.min(holder.HoldsOre.amount, remaining);
+    holder.HoldsOre.amount -= taken; remaining -= taken;
+    if (remaining <= 0) break;
+  }
+  return remaining <= 0;
+}
