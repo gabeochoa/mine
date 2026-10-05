@@ -200,11 +200,11 @@ class Entity {
   }
 }
 
+// EC lists hold entity ids (numbers), never entity objects. Mutate each
+// list in place: reassigning a local `component` variable deletes nothing.
 function remove_entity(id) {
   delete entities[id];
-  for (let component of Object.values(EC)) {
-    component = component.filter((e) => {
-      return e.id == id;
-    });
+  for (const name of Object.keys(EC)) {
+    EC[name] = EC[name].filter((entity_id) => entity_id !== id);
   }
 }
