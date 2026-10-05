@@ -1,3 +1,4 @@
+"use strict";
 const PSIZE = 10;
 let entities = {};
 
@@ -111,7 +112,7 @@ function setup() {
 }
 
 function spawn_N_ore() {
-  i = 0;
+  let i = 0;
   while (i < NUM_SPAWNED) {
     // console.log("spawning a new ore")
 
@@ -177,7 +178,7 @@ function tick() {
   // move to target if one exists
   for_components([CT.HasTarget], (entity, ht) => {
     if (ht.target_id == null) return;
-    target = entities[ht.target_id];
+    const target = entities[ht.target_id];
     if (target == null) {
       ht.target_id = null;
       return;
@@ -191,7 +192,7 @@ function tick() {
   // drop off object
   for_components([CT.HasTarget, CT.HoldsOre], (entity, ht, ho) => {
     if (ht.target_id == null) return;
-    target = entities[ht.target_id];
+    const target = entities[ht.target_id];
     if (target == null) {
       ht.target_id = null;
       return;

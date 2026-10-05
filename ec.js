@@ -1,3 +1,4 @@
+"use strict";
 const CT = {
   CircleRenderer: {
     name: "CircleRenderer",

@@ -1,10 +1,11 @@
+"use strict";
 function make_ore(x, y) {
-  e = new Entity(x, y, [CT.CircleRenderer, CT.IsOre, CT.IsTarget]);
+  const e = new Entity(x, y, [CT.CircleRenderer, CT.IsOre, CT.IsTarget]);
   entities[e.id] = e;
 }
 
 function make_ship(x, y) {
-  e = new Entity(x, y, [
+  const e = new Entity(x, y, [
     CT.HasVelocity,
     CT.SquareRenderer,
     CT.HasTarget,
@@ -14,7 +15,7 @@ function make_ship(x, y) {
 }
 
 function make_drop(x, y, w, h, oreType) {
-  e = new Entity(x, y, [
+  const e = new Entity(x, y, [
     CT.RectRenderer,
     CT.HoldsOre,
     CT.IsDropoff,
@@ -47,7 +48,7 @@ function make_button({
   onHoverEnd,
   validationFunction,
 } = {}) {
-  e = new Entity(x, y, [
+  const e = new Entity(x, y, [
     CT.RectRenderer,
     CT.HasClickInteraction,
     CT.HasHoverInteraction,
@@ -91,7 +92,7 @@ function make_dynamic_button(buttonOptions) {
 }
 
 function make_label(x, y, callback) {
-  e = new Entity(x, y, [CT.HasLabel, CT.HasAbsolutePosition]);
+  const e = new Entity(x, y, [CT.HasLabel, CT.HasAbsolutePosition]);
   e.HasLabel.is_dynamic = true;
   e.HasLabel.active = true;
   e.HasLabel.location = RectLocation.Center;
@@ -102,7 +103,7 @@ function make_label(x, y, callback) {
 }
 
 function make_label_list(x, y, callback) {
-  e = new Entity(x, y, [CT.HasLabel, CT.HasAbsolutePosition]);
+  const e = new Entity(x, y, [CT.HasLabel, CT.HasAbsolutePosition]);
   e.HasLabel.is_dynamic = true;
   e.HasLabel.active = true;
   e.HasLabel.location = RectLocation.Center;

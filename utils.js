@@ -1,3 +1,4 @@
+"use strict";
 // PROTOTYPES
 
 const v_mult = p5.Vector.mult;
